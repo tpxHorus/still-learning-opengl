@@ -4,7 +4,7 @@
 #define CGLM_DEFINE_PRINTS
 #include <cglm/cglm.h>
 #include "camera.h"
-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
+
 vec3 temp_vec;
 
 Camera* newCamera(vec3 pos, vec3 front, vec3 up) {
