@@ -13,6 +13,7 @@
                 "${fileDirname}/${fileBasenameNoExtension}",
                 "${fileDirname}/shader.c",
                 "${fileDirname}/camera.c",
+                "${fileDirname}/model.c",
                 "-lGLEW",
                 "-lglfw",
                 "-lGL",
@@ -22,6 +23,7 @@
                 "-lXi",
                 "-lm",
                 "-lSOIL",
+                "-lassimp",
             ],
             "options": {
                 "cwd": "${fileDirname}"

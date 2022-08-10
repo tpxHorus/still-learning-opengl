@@ -49,18 +49,14 @@ void cameraDirection(Camera* camera, double xoffset, double yoffset, float sensi
 	camera->yaw += xoffset * sensitivity;
 	camera->pitch += yoffset * sensitivity;
 
-	if (camera->pitch > 89.0f)
-		camera->pitch = 89.0f;
-	else if (camera->pitch < -89.0f)
-		camera->pitch = -89.0f;
+	if (camera->pitch > 89.0f) camera->pitch = 89.0f;
+	else if (camera->pitch < -89.0f) camera->pitch = -89.0f;
 
 	glm_normalize_to((vec3){cos(glm_rad(camera->pitch)) * cos(glm_rad(camera->yaw)), sin(glm_rad(camera->pitch)), cos(glm_rad(camera->pitch)) * sin(glm_rad(camera->yaw))}, camera->front);
 }
 
 void cameraChangeFov(Camera* camera, double offset, float sensitivity) {
-	camera->fov -= offset * sensitivity;
-	if (camera->fov < 1.0f)
-		camera->fov = 1.0f;
-	if (camera->fov > 45.0f)
-		camera->fov = 45.0f;
+	camera->fov += offset * sensitivity;
+	if (camera->fov <= 1.0f) camera->fov = 1.0f;
+	if (camera->fov >= 45.0f) camera->fov = 45.0f;
 }

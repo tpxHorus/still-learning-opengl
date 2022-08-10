@@ -15,6 +15,11 @@ void raise(const char* msg, const char* log) {
 	exit(-1);
 }
 
+void nqraise(const char* msg, const char* log) {
+	fprintf(stderr, "%s::%s", msg, log);
+	fflush(stderr);
+}
+
 GLuint createShaderProgram(const GLchar* vertexShaderPath, const GLchar* fragmentShaderPath) {
 	if (!fopen(vertexShaderPath, "rb")) {
 		raise("ERROR::SHADER::VERTEX::FAILED_TO_OPEN_FILE", vertexShaderPath);

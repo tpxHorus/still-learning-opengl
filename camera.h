@@ -1,6 +1,5 @@
 #ifndef _CAMERA_H
 #define _CAMERA_H
-#include <cglm/cglm.h>
 
 typedef struct {
 	vec3 pos;
