@@ -57,6 +57,7 @@ int main() {
 	glViewport(0, 0, WIDTH, HEIGHT);
 
 	glEnable(GL_DEPTH_TEST);
+	glEnable(GL_STENCIL_TEST);
 
 	GLuint programShader = createShaderProgram("shader.vs", "shader.frag");
 
@@ -107,30 +108,14 @@ int main() {
     };
 
     GLfloat planeVertices[] = {
-         5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
+         5.0f, -0.5f,  5.0f,  1.0f, 0.0f,
         -5.0f, -0.5f,  5.0f,  0.0f, 0.0f,
-        -5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
+        -5.0f, -0.5f, -5.0f,  0.0f, 1.0f,
 
-         5.0f, -0.5f,  5.0f,  2.0f, 0.0f,
-        -5.0f, -0.5f, -5.0f,  0.0f, 2.0f,
-         5.0f, -0.5f, -5.0f,  2.0f, 2.0f								
+         5.0f, -0.5f,  5.0f,  1.0f, 0.0f,
+        -5.0f, -0.5f, -5.0f,  0.0f, 1.0f,
+         5.0f, -0.5f, -5.0f,  1.0f, 1.0f								
     };
-
-	GLuint cubeVAO, cubeVBO;
-	glGenVertexArrays(1, &cubeVAO);
-	glGenBuffers(1, &cubeVBO);
-
-	glBindVertexArray(cubeVAO);
-	glBindBuffer(GL_ARRAY_BUFFER, cubeVBO);
-	glBufferData(GL_ARRAY_BUFFER, sizeof(cubeVertices), cubeVertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), nullptr);
-	glEnableVertexAttribArray(0);
-
-	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(GLfloat), (void*)(3 * sizeof(GLfloat)));
-	glEnableVertexAttribArray(1);
-
-	glBindVertexArray(0);
 
 	GLuint planeVAO, planeVBO;
 	glGenVertexArrays(1, &planeVAO);
@@ -148,14 +133,12 @@ int main() {
 
 	glBindVertexArray(0);
 
-	GLint cubeTexture = loadTexture("container2.png");
 	GLint planeTexture = loadTexture("stone.png");
+	GLint grassTexture = loadTexture("grass.png");
 
 	mat4 model, view, projection;
 
-
 	while (!glfwWindowShouldClose(window)) {
-
 		currentFrame = glfwGetTime();
 		deltaTime = currentFrame - lastFrame;
 		lastFrame = currentFrame;
@@ -175,23 +158,19 @@ int main() {
 		glUniformMatrix4fv(glGetUniformLocation(programShader, "projection"), 1, GL_FALSE, *projection);
         glUniformMatrix4fv(glGetUniformLocation(programShader, "view"), 1, GL_FALSE, *view);
 
-		glBindVertexArray(cubeVAO);
-		glBindTexture(GL_TEXTURE_2D, cubeTexture);
-
-		glm_mat4_identity(model);
-		glm_translate(model, (vec3){-1.0f, 0.0f, -1.0f});
-		glUniformMatrix4fv(glGetUniformLocation(programShader, "model"), 1, GL_FALSE, *model);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-
-		glm_mat4_identity(model);
-		glm_translate(model, (vec3){2.0f, 0.0f, 0.0f});
-		glUniformMatrix4fv(glGetUniformLocation(programShader, "model"), 1, GL_FALSE, *model);
-		glDrawArrays(GL_TRIANGLES, 0, 36);
-		
 		glBindVertexArray(planeVAO);
 		glBindTexture(GL_TEXTURE_2D, planeTexture);
 
 		glm_mat4_identity(model);
+		glUniformMatrix4fv(glGetUniformLocation(programShader, "model"), 1, GL_FALSE, *model);
+		glDrawArrays(GL_TRIANGLES, 0, 6);
+
+		glBindTexture(GL_TEXTURE_2D, grassTexture);
+
+		glm_mat4_identity(model);
+		glm_rotate(model, glm_rad(90.0f), (vec3){-1.0f, 0.0f, 0.0f});
+		glm_translate(model, (vec3){0.0f, 0.0f, 1.0f});
+		glm_scale_uni(model, 0.30f);
 		glUniformMatrix4fv(glGetUniformLocation(programShader, "model"), 1, GL_FALSE, *model);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 

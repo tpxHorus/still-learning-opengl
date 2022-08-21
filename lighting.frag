@@ -70,7 +70,7 @@ void main() {
     
     result += calcSpotLight(spotLight, norm, viewDir);
 
-    color = vec4(result, 1.0f);
+    color = vec4(result, 0.5f);
 }
 
 vec3 calcDirLight(DirLight light, vec3 normal, vec3 viewDir) {
