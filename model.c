@@ -92,7 +92,7 @@ void loadModel(Model* model, GLchar* path) {
     model->meshes = (Mesh*) malloc(sizeof(Mesh) * model->m_size);
 
     model->directory = (GLchar*) calloc(sizeof(GLchar), strlen(path)+1);
-strcpy(model->directory, getDirectory(path, '/'));
+    strcpy(model->directory, getDirectory(path, '/'));
 
     model->tl_size = 0;
     model->textures_loaded = (Texture*) calloc(sizeof(Texture), scene->mNumMaterials);
